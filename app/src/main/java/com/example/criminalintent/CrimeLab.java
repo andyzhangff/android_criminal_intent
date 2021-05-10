@@ -18,8 +18,14 @@ public class CrimeLab {
 
     private CrimeLab(Context appContext) {
         mAppContext = appContext;
-        mCrimes = new ArrayList<Crime>();
         mSerializer = new CriminalIntentJSONSerializer(mAppContext, FILENAME);
+
+        try {
+            mCrimes = mSerializer.loadCrimes();
+        } catch (Exception e) {
+            mCrimes = new ArrayList<Crime>();
+            Log.e(TAG, "Error loading crimes: ", e);
+        }
     }
 
     public static CrimeLab getInstance(Context c) {
@@ -53,6 +59,17 @@ public class CrimeLab {
             return true;
         } catch (Exception e) {
             Log.e(TAG, "Error saving crimes: ", e);
+            return false;
+        }
+    }
+
+    public boolean saveCrimesExternalStorage() {
+        try{
+            mSerializer.saveCrimesExternalStorage(mCrimes);
+            Log.d(TAG, "crimes saved to external file");
+            return true;
+        } catch (Exception e) {
+            Log.e(TAG, "Error saving crimes to external storage: ", e);
             return false;
         }
     }

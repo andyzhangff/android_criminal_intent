@@ -165,6 +165,7 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        CrimeLab.getInstance(getActivity()).saveCrimes();
+//        CrimeLab.getInstance(getActivity()).saveCrimes();
+        CrimeLab.getInstance(getActivity()).saveCrimesExternalStorage();
     }
 }
